@@ -41,6 +41,8 @@ module Authentication
 
   def require_authentication
     raise AuthenticationRequired.new unless authenticated?
+    # if access_token expires the refresh token is sanded to the OP, the aim is to get a new access_token
+    authenticate_with_refresh_token if current_account.open_id.expires_at < DateTime.now.utc
   end
 
   def require_anonymous_access
@@ -56,5 +58,10 @@ module Authentication
 
   def unauthenticate!
     @current_account = session[:current_account] = nil
+  end
+
+  def authenticate_with_refresh_token
+    provider = Provider.find_by(issuer: Rails.application.config.openid_op_url)
+    provider.re_authenticate(current_account.open_id.refresh_token)
   end
 end

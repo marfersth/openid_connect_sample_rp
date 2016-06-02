@@ -115,14 +115,37 @@ class Provider < ActiveRecord::Base
     access_token = client.access_token! client_auth_method
     _id_token_ = decode_id access_token.id_token
     _id_token_.verify!(
-      issuer: issuer,
-      client_id: identifier,
-      nonce: nonce
+        issuer: issuer,
+        nonce: nonce,
+        client_id: identifier
     )
-    open_id = self.open_ids.find_or_initialize_by_identifier _id_token_.subject
+    open_id = open_ids.find_or_initialize_by(identifier: _id_token_.subject)
     open_id.access_token, open_id.id_token = access_token.access_token, access_token.id_token
+    open_id.refresh_token = access_token.refresh_token
     open_id.save!
+
+    # jwt exp represents the number of seconds from 1970-01-01T0:0:0Z in UTC
+    open_id.update!(expires_at: (DateTime.new(1970) + _id_token_.exp.seconds))
+
     open_id.account || Account.create!(open_id: open_id)
+  end
+
+  def re_authenticate(refresh_token)
+    client.refresh_token = refresh_token
+    access_token = client.access_token! client_auth_method
+    _id_token_ = decode_id access_token.id_token
+    _id_token_.verify!(
+        issuer: issuer,
+        nonce: nil,
+        client_id: identifier
+    )
+    open_id = open_ids.find_by(identifier: _id_token_.subject)
+    open_id.access_token, open_id.id_token = access_token.access_token, access_token.id_token
+    open_id.refresh_token = access_token.refresh_token
+    open_id.save!
+
+    # jwt exp represents the number of seconds from 1970-01-01T0:0:0Z in UTC
+    open_id.update!(expires_at: (DateTime.new(1970) + _id_token_.exp.seconds))
   end
 
   class << self

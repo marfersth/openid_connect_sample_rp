@@ -1,37 +1,6 @@
 # OpenIDConnect Sample RP
 
-A sample OpenID Connect Relying Party ("RP") using the `openid_connect` gem.
-
-
-## Resources
-
-For this sample:
-
-* View source on GitHub: https://github.com/nov/openid_connect_sample_rp
-* Report Issues on GitHub: https://github.com/nov/openid_connect_sample_rp/issues
-
-
-For more information, see readme and wiki for `openid_connect` gem:
-
-* https://github.com/nov/openid_connect
-
-
-Also of interest, the corresponding sample OP:
-
-* https://github.com/nov/openid_connect_sample
-
-
-## Live Example
-
-Nov has this sample running on Heroku: https://connect-rp.herokuapp.com
-
-To see it in action right now:
-
-* visit [Nov's Sample RP on Heroku](https://connect-rp.herokuapp.com)
-* enter `connect-op.herokuapp.com` in the form
-* press "Discover"
-* the RP will use the OP to authenticate
-
+Implement OpenID Connect Relying Party ("RP") using the `openid_connect` gem.
 
 ## How to Run This Example on Your Machine
 
@@ -46,21 +15,10 @@ To run this in development mode:
 
 Point your browser at http://localhost:3001
 
-If you download and run [the sample OP server](https://connect-rp.herokuapp.com)
+If you download and run [the sample OP server](https://github.com/marfersth/openid_connect_sample)
 you can have this RP use that OP for authentication
 (use the OP's address in the "Discover" field, e.g. `localhost:3000`).
 The two servers on localhost must run on different ports.
-
-You can also use the address of
-[Nov's Sample OP on Heroku](https://connect-op.herokuapp.com) in the
-"Discover" field and your RP will use that to authenticate.
-
-
-## Notes
-
-* The Gemfile includes gem 'pg' (for PostgreSQL), but you can remove it.
-  Nov uses PostgreSQL for his Heroku deployment, but the default DB configs are all SQLite.
-
 
 ## Centos OpenSSL Complications
 
