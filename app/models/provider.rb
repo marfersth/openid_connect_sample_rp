@@ -11,8 +11,8 @@ class Provider < ActiveRecord::Base
   validates :token_endpoint,         presence: {if: :registered?}
   validates :userinfo_endpoint,      presence: {if: :registered?}
 
-  scope :dynamic,  where(dynamic: true)
-  scope :listable, where(dynamic: false)
+  scope :dynamic, -> { where(dynamic: true) }
+  scope :listable, -> { where(dynamic: false) }
   scope :valid, lambda {
     where {
       (expires_at == nil) |

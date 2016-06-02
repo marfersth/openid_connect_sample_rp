@@ -19,6 +19,8 @@ ConnectRp::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
+  config.openid_op_url = 'http://localhost:3000'
+
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 end
