@@ -1,6 +1,9 @@
 # OpenIDConnect Sample RP
 
 Implement OpenID Connect Relying Party ("RP") using the `openid_connect` gem.
+Upgraded to run over Rails 4 framework
+Use OAuth refresh_token feature (one the access_token get expired, a refresh token is sent to
+the OP to get a new access_token, this way the user dont need to log in again)
 
 ## How to Run This Example on Your Machine
 
